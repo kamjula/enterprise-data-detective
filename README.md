@@ -9,16 +9,16 @@ A Python tool I built to profile enterprise transaction data, detect fraud and a
 | Feature | Description |
 |---|---|
 | 📊 Data Profiling | Automatically reports rows, columns, types, missing values, duplicates, and date range from any CSV |
-| 🚨 Anomaly / Fraud Detection | Flags suspicious transactions using 6 rule-based detectors — each with a plain-English reason |
+| 🚨 Anomaly / Fraud Detection | Flags suspicious transactions using 5 grouped rule-based checks (with 6 possible flag reasons) — each with a plain-English reason |
 | 💬 Natural-Language Q&A | Ask "which 5 accounts spent the most?" → the tool generates SQL → DuckDB runs it → returns a table |
 
 ---
 
-## 🚨 Fraud Detection Rules
+## 🚨 Flag Reasons (Grouped into Five Checks)
 
 - **Amount outliers** — transactions far above the statistical norm (mean + 3σ)
 - **Large round numbers** — suspiciously clean amounts like $5,000 or $10,000
-- **Velocity bursts** — same account with 3+ transactions within 1 hour
+- **Velocity bursts** — repeated transactions within a short period (see implementation for threshold)
 - **Duplicate charges** — same account + amount + day, charged twice
 - **High-risk countries** — transactions from known fraud-prone regions
 - **Off-hours activity** — transactions between 11 PM and 5 AM
@@ -27,13 +27,13 @@ A Python tool I built to profile enterprise transaction data, detect fraud and a
 
 ## 🛠 Tech Stack
 
-Python · Pandas · DuckDB · OpenAI API · Streamlit · Statistical Anomaly Detection
+Python · Pandas · DuckDB · Claude API · Streamlit · Statistical Anomaly Detection
 
 | Layer | Technology |
 |---|---|
 | Data handling | Python + Pandas |
 | In-process SQL | DuckDB (no warehouse needed) |
-| Natural language Q&A | OpenAI API |
+| Natural language Q&A | Claude API |
 | Web UI | Streamlit |
 
 ---
@@ -57,6 +57,8 @@ enterprise-data-detective/
 
 ## 🚀 How to Run
 
+> The commands below reflect the existing README layout. Verify paths against the checked-out repository before running; the folder cleanup is not yet merged.
+
 ```bash
 pip install -r requirements.txt
 python data/generate_sample_data.py
@@ -67,7 +69,7 @@ streamlit run app.py
 For the natural language Q&A feature, set your API key:
 
 ```bash
-export OPENAI_API_KEY=your-key-here
+export ANTHROPIC_API_KEY=your-key-here
 ```
 
 ---
@@ -82,4 +84,4 @@ I wanted to build something that works the way analysts actually think — profi
 
 ## 👩‍💻 Author
 
-Sravani Kamjula | Data Analyst &nbsp; [LinkedIn](https://www.linkedin.com/in/sravani-kamjula-763285176) · [Portfolio](https://github.com/kamjula)
+Sravani Kamjula | Data Scientist &nbsp; [LinkedIn](https://www.linkedin.com/in/sravani-kamjula-763285176) · [Portfolio](https://github.com/kamjula)
