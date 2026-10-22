@@ -1,10 +1,10 @@
-# 🕵️ Enterprise Data Detective
+# 🕵️ Enterprise Data Detective — AI-Assisted Transaction Analytics
 
 A Python tool I built to profile enterprise transaction data, detect fraud and anomalies, and let you ask questions about your data in plain English — without needing a data warehouse.
 
 ---
 
-## ✨ What It Does
+## ✨ Key Capabilities
 
 | Feature | Description |
 |---|---|
@@ -14,7 +14,7 @@ A Python tool I built to profile enterprise transaction data, detect fraud and a
 
 ---
 
-## 🚨 Flag Reasons (Grouped into Five Checks)
+## 🚨 Anomaly Detection — Five Rule Groups
 
 - **Amount outliers** — transactions far above the statistical norm (mean + 3σ)
 - **Large round numbers** — suspiciously clean amounts like $5,000 or $10,000
