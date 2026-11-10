@@ -1,87 +1,86 @@
-# 🕵️ Enterprise Data Detective — AI-Assisted Transaction Analytics
+# Enterprise Data Detective — AI-Assisted Transaction Analytics
 
-A Python tool I built to profile enterprise transaction data, detect fraud and anomalies, and let you ask questions about your data in plain English — without needing a data warehouse.
+A compact Python application for **profiling transaction data, surfacing explainable anomaly signals, and querying data in plain English**.
 
----
+The project is intentionally small and inspectable: Pandas handles profiling and rules, DuckDB executes analytical SQL locally, and Claude converts natural-language questions into SELECT queries.
 
-## ✨ Key Capabilities
+## What is implemented
 
-| Feature | Description |
+| Capability | Implementation |
 |---|---|
-| 📊 Data Profiling | Automatically reports rows, columns, types, missing values, duplicates, and date range from any CSV |
-| 🚨 Anomaly / Fraud Detection | Flags suspicious transactions using 5 grouped rule-based checks (with 6 possible flag reasons) — each with a plain-English reason |
-| 💬 Natural-Language Q&A | Ask "which 5 accounts spent the most?" → the tool generates SQL → DuckDB runs it → returns a table |
+| Data profiling | Row/column counts, types, missing values, duplicates, numeric stats, date range |
+| Anomaly review | Amount outliers, round-number amounts, velocity bursts, duplicate charges, high-risk-country and off-hours checks |
+| Explainability | Every flagged row includes one or more human-readable reasons |
+| Natural-language Q&A | Claude generates DuckDB SQL from a fixed transaction schema |
+| Local analytics | DuckDB runs queries directly against the CSV |
+| UI | Streamlit tabs for Profile, Anomalies, and AI Q&A |
 
----
+## Application flow
 
-## 🚨 Anomaly Detection — Five Rule Groups
-
-- **Amount outliers** — transactions far above the statistical norm (mean + 3σ)
-- **Large round numbers** — suspiciously clean amounts like $5,000 or $10,000
-- **Velocity bursts** — repeated transactions within a short period (see implementation for threshold)
-- **Duplicate charges** — same account + amount + day, charged twice
-- **High-risk countries** — transactions from known fraud-prone regions
-- **Off-hours activity** — transactions between 11 PM and 5 AM
-
----
-
-## 🛠 Tech Stack
-
-Python · Pandas · DuckDB · Claude API · Streamlit · Statistical Anomaly Detection
-
-| Layer | Technology |
-|---|---|
-| Data handling | Python + Pandas |
-| In-process SQL | DuckDB (no warehouse needed) |
-| Natural language Q&A | Claude API |
-| Web UI | Streamlit |
-
----
-
-## 📁 Project Structure
-
+```text
+CSV / sample data
+      │
+      ├──> Pandas profiler ─────> data-quality summary
+      │
+      ├──> rule/stat checks ────> flagged transactions + reasons
+      │
+      └──> Claude SQL generation ──> DuckDB SELECT ──> result table
 ```
+
+## AI safety boundary
+
+The Q&A layer prompts Claude to use a fixed schema and rejects responses that do not begin with `SELECT`.
+
+That is a **basic portfolio guard**, not a production SQL sandbox. A production version should use a proper SQL parser/AST validator, statement-count validation, query limits, timeouts, and isolated execution.
+
+## Repository layout
+
+The runnable project currently lives one directory below the repository root:
+
+```text
 enterprise-data-detective/
-├── data/
-│   ├── generate_sample_data.py
-│   └── transactions.csv
-├── detective/
-│   ├── profile_data.py
-│   ├── detect_anomalies.py
-│   └── ask_data.py
-├── app.py
-└── requirements.txt
+└── enterprise-data-detective/
+    ├── app.py
+    ├── requirements.txt
+    ├── data/
+    └── detective/
+        ├── profile_data.py
+        ├── detect_anomalies.py
+        └── ask_claude.py
 ```
 
----
-
-## 🚀 How to Run
-
-> The commands below reflect the existing README layout. Verify paths against the checked-out repository before running; the folder cleanup is not yet merged.
+## Run locally
 
 ```bash
+git clone https://github.com/kamjula/enterprise-data-detective.git
+cd enterprise-data-detective/enterprise-data-detective
+
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
+
 python data/generate_sample_data.py
-python detective/detect_anomalies.py data/transactions.csv
 streamlit run app.py
 ```
 
-For the natural language Q&A feature, set your API key:
+To enable natural-language Q&A:
 
 ```bash
 export ANTHROPIC_API_KEY=your-key-here
 ```
 
----
+## Technical notes
 
-## 💡 Why I Built This
+- The included data is synthetic.
+- Anomaly checks are heuristic review signals, not fraud labels or a validated fraud model.
+- High-risk-country rules are hard-coded examples for the portfolio dataset and should not be treated as a real compliance policy.
+- The application is local-first; no production deployment or customer-data claim is made.
 
-I wanted to build something that works the way analysts actually think — profile the data first, find what's wrong, then answer questions about it in plain English instead of writing SQL every time.
+## Stack
 
-> 📌 The sample data is synthetic — generated by the script in this repo with suspicious transactions deliberately injected. Not real customer data.
+Python · Pandas · DuckDB · Streamlit · Claude API
 
----
+## Author
 
-## 👩‍💻 Author
-
-Sravani Kamjula · AI/ML Engineer &nbsp; [LinkedIn](https://www.linkedin.com/in/sravani-kamjula/) · [GitHub](https://github.com/kamjula)
+**Sravani Kamjula** · AI/ML Engineer  
+[LinkedIn](https://www.linkedin.com/in/sravani-kamjula/) · [Portfolio](https://sravaniportfoli.netlify.app/)
