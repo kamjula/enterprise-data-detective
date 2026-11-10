@@ -84,4 +84,4 @@ I wanted to build something that works the way analysts actually think — profi
 
 ## 👩‍💻 Author
 
-Sravani Kamjula | Data Scientist &nbsp; [LinkedIn](https://www.linkedin.com/in/sravani-kamjula-763285176) · [Portfolio](https://github.com/kamjula)
+Sravani Kamjula · AI/ML Engineer &nbsp; [LinkedIn](https://www.linkedin.com/in/sravani-kamjula/) · [GitHub](https://github.com/kamjula)
