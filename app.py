@@ -41,7 +41,7 @@ with tab1:
     c1.metric("Rows", f"{rep['rows']:,}")
     c2.metric("Columns", rep["columns"])
     c3.metric("Duplicate rows", rep["duplicate_rows"])
-    st.dataframe(pd.DataFrame(rep["columns_detail"]), use_container_width=True)
+    st.dataframe(pd.DataFrame(rep["columns_detail"]), width="stretch")
 
 # ---- Tab 2: anomalies -------------------------------------------------------
 with tab2:
@@ -50,7 +50,7 @@ with tab2:
     cols = ["transaction_id", "account_id", "merchant", "amount",
             "country", "flag_reasons"]
     cols = [c for c in cols if c in flagged.columns]
-    st.dataframe(flagged[cols], use_container_width=True)
+    st.dataframe(flagged[cols], width="stretch")
 
 # ---- Tab 3: natural-language Q&A -------------------------------------------
 with tab3:
@@ -63,6 +63,6 @@ with tab3:
             from detective.ask_claude import ask
             out = ask(question)
             st.code(out["sql"], language="sql")
-            st.dataframe(out["result"], use_container_width=True)
+            st.dataframe(out["result"], width="stretch")
         except Exception as e:
             st.error(f"Could not answer that: {e}")
