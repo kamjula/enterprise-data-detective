@@ -1,4 +1,4 @@
-# Enterprise Data Detective — AI-Assisted Transaction Analytics
+# Enterprise Data Detective: AI-Assisted Transaction Analytics
 
 [![CI](https://github.com/kamjula/enterprise-data-detective/actions/workflows/ci.yml/badge.svg)](https://github.com/kamjula/enterprise-data-detective/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
@@ -33,7 +33,7 @@ CSV / sample data
 
 The Q&A layer prompts Claude to use a fixed schema and rejects responses that do not begin with `SELECT`.
 
-That is a **basic portfolio guard**, not a production SQL sandbox. A production version should use a proper SQL parser/AST validator, statement-count validation, query limits, timeouts, and isolated execution.
+That is a **basic guard**, not a production SQL sandbox. A production version should use a proper SQL parser/AST validator, statement-count validation, query limits, timeouts, and isolated execution.
 
 ## Repository layout
 
@@ -93,7 +93,7 @@ The suite (run in CI on every push) checks the profiler's counts, that ordinary 
 
 - The included data is synthetic.
 - Anomaly checks are heuristic review signals, not fraud labels or a validated fraud model.
-- High-risk-country rules are hard-coded examples for the portfolio dataset and should not be treated as a real compliance policy.
+- High-risk-country rules are hard-coded examples for the sample dataset and should not be treated as a real compliance policy.
 - The application is local-first; no production deployment or customer-data claim is made.
 
 ## Stack
